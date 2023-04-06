@@ -1,0 +1,106 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f1f1;
+    margin-bottom: 100px;
+}
+
+.dark-mode {
+    background-color: #333333;
+    color: white;
+}
+
+#navcol-1{
+    padding-right: 1em;
+}
+.card {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    margin: 10px;
+}
+
+
+@keyframes background-pan {
+    from {
+        background-position: 0% center;
+    }
+
+    to {
+        background-position: -200% center;
+    }
+}
+
+@keyframes scale {
+    from, to {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(180deg);
+    }
+}
+
+:root {
+    --yellow: rgb(255, 219, 57);
+    --blue: rgb(178, 70, 236);
+    --gray: rgb(137, 133, 150);
+    --red: rgb(246, 76, 70);
+    --green: rgb(138, 240, 0);
+}
+
+.magic{
+    color: white;
+    text-align: center;
+    display: inline-block;
+    font-size: 1.3em;
+    font-weight: bold;
+    letter-spacing: 5px;
+    position: relative;
+    animation: background-pan 3s linear infinite;
+    background: linear-gradient(
+            to right,
+            var(--yellow),
+            var(--blue),
+            var(--gray),
+            var(--red),
+            var(--green)
+    );
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
