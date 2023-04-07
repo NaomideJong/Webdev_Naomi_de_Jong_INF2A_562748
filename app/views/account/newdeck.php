@@ -8,17 +8,26 @@
                     <h3>Create New Deck</h3>
                 </div>
                 <div class="card-body">
-                    <form action="/decks" method="post">
+                    <form method="post">
                         <div class="form-group">
-                            <label for="name">Name:</label>
+                            <label for="name">Deck Name:</label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
                             <label for="decklist">Decklist:</label>
-                            <textarea class="form-control" id="decklist" name="decklist" rows="10"></textarea>
+                            <textarea class="form-control" id="decklist" name="decklist" rows="10" placeholder="Make sure to put the amount in front of every card:&#10;1 Sakura-Tribe Elder&#10;3 Forest" ></textarea>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-8">
+                                <label for="cardname">Deck Thumbnail:</label>
+                                <input type="text" class="form-control" id="cardname" name="cardname" placeholder="Ex.: Prosper, Tome-Bound"required>
+                            </div>
+                            <div class="col p-2 d-flex justify-content-center">
+                                <img id="cardpreview" src="/images/card.jpg"">
+                            </div>
                         </div>
                         <div class="d-flex justify-content-end mt-3">
-                            <button type="submit" class="btn btn-primary">Create Deck</button>
+                            <button type="submit" name="submit" class="btn btn-primary">Create Deck</button>
                         </div>
                     </form>
                 </div>
@@ -27,4 +36,6 @@
     </div>
 </div>
 
+<!-- add js -->
+<script src="/js/thumbnail.js"></script>
 <?php include __DIR__ . '/../footer.php'; ?>

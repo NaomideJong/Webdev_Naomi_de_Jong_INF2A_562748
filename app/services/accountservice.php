@@ -12,8 +12,8 @@ class AccountService
         $this->accountRepository = new AccountRepository();
     }
 
-    public function index() : void
+    public function getDecks() : array
     {
-        require __DIR__ . '/../views/account/index.php';
+        return $this->accountRepository->getDecks();
     }
 }

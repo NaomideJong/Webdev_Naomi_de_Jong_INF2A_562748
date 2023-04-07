@@ -25,21 +25,4 @@ if (isset($_SESSION['user'])) {
         </div>
     </div>
 
-<!--<link rel="stylesheet" href="/css/login.css">-->
-<!--    <div class="login-box">-->
-<!--        <h2>Login Here</h2>-->
-<!--        <form method="post">-->
-<!--            <div class="user-box">-->
-<!--                <input type="text" name="username" required="">-->
-<!--                <label class="text-white">Username</label>-->
-<!--            </div>-->
-<!--            <div class="user-box">-->
-<!--                <input type="password" name="password" required="">-->
-<!--                <label class="text-white">Password</label>-->
-<!--            </div>-->
-<!--            <input type="submit" name="submit" value="Login">-->
-<!--        </form>-->
-<!--        <p>Don't have an account?</p>-->
-<!--        <a href="/register">Register here</a>-->
-<!--    </div>-->
 <?php include __DIR__ . '/../footer.php';

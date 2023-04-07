@@ -17,6 +17,7 @@ class LoginService
         $user = $this->loginRepository->login($username, $password);
         if ($user != null) {
             $_SESSION['user'] = $user['username'];
+            $_SESSION['user_id'] = $user['id'];
             header('location: /account');
         } else {
             $_SESSION['errors'] = 'Invalid username or password';

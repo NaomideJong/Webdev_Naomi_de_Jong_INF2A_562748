@@ -6,25 +6,24 @@
             <div class="border border-gray-200 text-white m-4 p-5 rounded text-center">
                 You have no decks saved. Add a deck by clicking the button below.
             </div>
-            <div class="text-center">
-                <a class="btn btn-primary" href="/newdeck">Add Deck +</a>
-            </div>
         <?php else: ?>
-            <div class="row border border-gray-200 text-white m-4 p-3 rounded">
+            <div class="row border border-gray-200 text-white m-4 p-3 rounded d-flex justify-content-center">
                 <?php foreach ($decks as $deck): ?>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-3 mb-3 ">
                         <div class="card">
-                            <img src="<?php echo $deck->thumbnail_url; ?>" class="card-img-top" alt="Deck Thumbnail">
+                            <img src="<?php echo $deck['thumbnail']; ?>" class="card-img-top" alt="Deck Thumbnail">
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo $deck->name; ?></h5>
-                                <p class="card-text"><?php echo $deck->description; ?></p>
-                                <a href="/decks/<?php echo $deck->id; ?>" class="btn btn-primary">View Deck</a>
+                                <h5 class="card-title d-flex justify-content-center"><?php echo $deck['name']; ?></h5>
+                                <a href="/deck?id=<?php echo $deck['id']; ?>" class="btn btn-primary d-flex justify-content-center">View Deck</a>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
+        <div class="text-center">
+            <a class="btn btn-primary m-3" href="/newdeck">Add Deck +</a>
+        </div>
     </div>
 
 <?php include __DIR__ . '/../footer.php';

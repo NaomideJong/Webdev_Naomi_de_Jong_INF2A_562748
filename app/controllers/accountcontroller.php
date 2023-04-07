@@ -13,7 +13,7 @@ class AccountController
     }
     public function index() : void
     {
-
+        $decks = $this->accountService->getDecks();
         require __DIR__ . '/../views/account/index.php';
     }
 }

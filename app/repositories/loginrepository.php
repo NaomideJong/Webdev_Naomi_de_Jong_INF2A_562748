@@ -11,7 +11,7 @@ class LoginRepository extends Repository
     public function login($username, $password)
     {
         try {
-            $stmt = $this::$connection->prepare("SELECT username, password 
+            $stmt = $this::$connection->prepare("SELECT id, username, password 
             FROM users WHERE (username = :username)");
 
             $stmt->bindParam(':username', $username, PDO::PARAM_STR);
