@@ -39,6 +39,7 @@ class DeckService
     public function getDeck(int $deckId) : ?array
     {
         $cards = $this->deckRepository->getDeck($deckId);
+        $totalPrice = 0;
         if (!$cards) {
             return null;
         }
@@ -54,11 +55,23 @@ class DeckService
                 curl_close($ch);
                 $cardData = json_decode($response, true);
                 $price = $cardData['prices']['eur'];
-                $card = new Card($cardName, $amount, $price);
+                $card = new Card($amount, $cardName, $price);
                 $cardArray[] = $card;
             }
         }
         return $cardArray;
+    }
+    public function calculatePrice($cards) : float
+    {
+        $totalPrice = 0;
+        foreach ($cards as $card) {
+            $totalPrice += $card->getPrice() * $card->getAmount();
+        }
+        return $totalPrice;
+    }
+    public function addCard(int $deckId, string $cardName, int $amount) : void
+    {
+        $this->deckRepository->addCard($deckId, $cardName, $amount);
     }
 
 }

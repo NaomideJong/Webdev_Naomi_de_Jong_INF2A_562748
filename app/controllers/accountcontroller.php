@@ -13,7 +13,12 @@ class AccountController
     }
     public function index() : void
     {
-        $decks = $this->accountService->getDecks();
-        require __DIR__ . '/../views/account/index.php';
+        if(isset($_SESSION['user_id'])){
+            $decks = $this->accountService->getDecks();
+            require __DIR__ . '/../views/account/index.php';
+        }
+        else{
+            header('Location: /login');
+        }
     }
 }

@@ -1,156 +1,149 @@
 <?php include __DIR__ . '/../header.php'; ?>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <form>
-                    <div class="form-group">
-                        <label for="cardName">Card Name:</label>
-                        <input type="text" class="form-control" id="cardName" name="cardName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="cardAmount">Amount:</label>
-                        <input type="number" class="form-control" id="cardAmount" name="cardAmount" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="cardPrice">Price:</label>
-                        <input type="number" class="form-control" id="cardPrice" name="cardPrice" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="cardPreview">Card Preview:</label>
-                        <img id="cardpreview" src="/images/card.jpg"">
-                    </div>
-                    <div class="form-group">
-                        <button type="button" class="btn btn-primary" id="addCardBtn">Add Card</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-9">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 text-white p-5">
+            <h3>Add Card</h3>
+            <form>
                 <div class="row">
-                    <?php foreach ($cards as $card): ?>
-                        <div class="col-md-3 mb-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title"><?php echo $card->name; ?></h5>
-                                    <p class="card-text"><?php echo $card->amount; ?></p>
-                                    <p class="card-text"><?php echo '$' . $card->price; ?></p>
-                                    <div class="d-flex justify-content-between">
-                                        <button type="button" class="btn btn-sm btn-danger" id="deleteCardBtn">Delete</button>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="<?php echo $card->id; ?>" id="deleteCheckbox">
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <label for="cardName" class="text-white">Card Name:</label>
+                            <input type="text" class="form-control" id="cardname" name="cardName" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="cardAmount" class="text-white">Amount:</label>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary minus-btn">-</button>
+                                <input type="number" class="form-control text-center" id="cardAmount" name="cardAmount" required min="1" value="1">
+                                <button type="button" class="btn btn-outline-secondary plus-btn">+</button>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-8">
+                        <div class="form-group position-relative">
+                            <input type="hidden" id="deckId" name="deckId" value="<?php echo $deckId; ?>">
+                            <label for="cardPreview" class="text-white">Card Preview:</label>
+                            <img id="cardpreview" src="/images/card.jpg">
+                            <img src="/images/cards.jpg" id="hoverCardPreview" alt="Card Preview">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary" id="addCardBtn">Add Card</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    <div class="col-md-6 text-white pt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="text-white">Card List</h3>
+            </div>
+            <div class="col-md-6">
                 <div class="d-flex justify-content-end mt-3">
-                    <button type="button" class="btn btn-danger" id="deleteSelectedBtn">Delete Selected Cards</button>
+                    <button type="button" class="btn btn-danger m-3" data-toggle="modal" data-target="#deleteModal">Delete Selected Cards</button>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table text-white">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price per card</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($cards as $card): ?>
+                    <tr class="card-item">
+                        <td class="card-name"><?php echo $card->name; ?></td>
+                        <td><?php echo '€' . ($card->price * $card->amount); ?></td>
+                        <td>
+                            <div class="input-group">
+                                <button type="button" class="btn btn-outline-secondary minus-btn">-</button>
+                                <input type="number" class="form-control card-amount-input text-center" value="<?php echo $card->amount; ?>" min="1" readonly>
+                                <button type="button" class="btn btn-outline-secondary plus-btn">+</button>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input delete-checkbox" type="checkbox" value="<?php echo $card->id; ?>">
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>Total Price: <?php echo '€' . $totalPrice; ?></td>
+                    <td></td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+
+    <!-- add js -->
+<script src="/js/cardupdate.js"></script>
+<script src="/js/thumbnail.js"></script>
+
+    <!-- Card preview modal -->
+    <div class="modal fade" id="card-preview-modal" tabindex="-1" role="dialog" aria-labelledby="card-preview-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="card-preview-modal-label"><span id="card-preview-name"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img id="card-preview-img" class="img-fluid" src="">
+                        </div>
+                        <div class="col-md-6">
+                            <p id="card-preview-description"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- add js -->
-    <script src="/js/thumbnail.js"></script>
+    <!-- Confirm delete modal -->
+<div class="modal fade" id="deleteSelectedModal" tabindex="-1" role="dialog" aria-labelledby="deleteSelectedModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteSelectedModalLabel">Delete Selected Cards</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the selected cards?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-    <!--    <table class="table table-striped">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th><input type="checkbox" id="select-all"></th>-->
-<!--            <th>Amount</th>-->
-<!--            <th>Name</th>-->
-<!--            <th></th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        --><?php //foreach ($cards as $card): ?>
-<!--            <tr>-->
-<!--                <td><input type="checkbox" class="select-card"></td>-->
-<!--                <td><span class="card-amount">--><?php //echo $card['amount']; ?><!--</span></td>-->
-<!--                <td>--><?php //echo $card['name']; ?><!--</td>-->
-<!--                <td>-->
-<!--                    <button type="button" class="btn btn-sm btn-primary btn-update-card" data-card-id="--><?php //echo $card['id']; ?><!--">+</button>-->
-<!--                    <button type="button" class="btn btn-sm btn-primary btn-update-card" data-card-id="--><?php //echo $card['id']; ?><!--">-</button>-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--        --><?php //endforeach; ?>
-<!--        </tbody>-->
-<!--    </table>-->
-<!--    <button type="button" class="btn btn-danger" id="btn-delete-cards">Delete Selected Cards</button>-->
-<!---->
-<!--    <script>-->
-<!--        // Select all checkbox-->
-<!--        $('#select-all').on('change', function() {-->
-<!--            $('.select-card').prop('checked', this.checked);-->
-<!--        });-->
-<!---->
-<!--        // Update card buttons-->
-<!--        $('.btn-update-card').on('click', function() {-->
-<!--            var cardId = $(this).data('card-id');-->
-<!--            var amountSpan = $(this).parent().siblings('.card-amount');-->
-<!--            var amount = parseInt(amountSpan.text());-->
-<!---->
-<!--            if ($(this).text() == '+') {-->
-<!--                amount += 1;-->
-<!--            } else {-->
-<!--                amount -= 1;-->
-<!--            }-->
-<!---->
-<!--            if (amount < 1) {-->
-<!--                amount = 1;-->
-<!--            }-->
-<!---->
-<!--            $.ajax({-->
-<!--                url: '/update-card',-->
-<!--                method: 'POST',-->
-<!--                data: {-->
-<!--                    card_id: cardId,-->
-<!--                    amount: amount-->
-<!--                },-->
-<!--                success: function(response) {-->
-<!--                    amountSpan.text(amount);-->
-<!--                },-->
-<!--                error: function() {-->
-<!--                    alert('Error updating card.');-->
-<!--                }-->
-<!--            });-->
-<!--        });-->
-<!---->
-<!--        // Delete cards button-->
-<!--        $('#btn-delete-cards').on('click', function() {-->
-<!--            var cardIds = [];-->
-<!---->
-<!--            $('.select-card:checked').each(function() {-->
-<!--                cardIds.push($(this).closest('tr').find('.btn-update-card').data('card-id'));-->
-<!--            });-->
-<!---->
-<!--            if (cardIds.length == 0) {-->
-<!--                alert('Please select at least one card to delete.');-->
-<!--                return;-->
-<!--            }-->
-<!---->
-<!--            if (!confirm('Are you sure you want to delete selected cards?')) {-->
-<!--                return;-->
-<!--            }-->
-<!---->
-<!--            $.ajax({-->
-<!--                url: '/delete-cards',-->
-<!--                method: 'POST',-->
-<!--                data: {-->
-<!--                    card_ids: cardIds-->
-<!--                },-->
-<!--                success: function(response) {-->
-<!--                    location.reload();-->
-<!--                },-->
-<!--                error: function() {-->
-<!--                    alert('Error deleting cards.');-->
-<!--                }-->
-<!--            });-->
-<!--        });-->
-<!--    </script>-->
-
-
-<?php include __DIR__ . '/../footer.php';
+<?php include __DIR__ . '/../footer.php'; ?>

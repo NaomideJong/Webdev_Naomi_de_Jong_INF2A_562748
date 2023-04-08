@@ -13,6 +13,9 @@ class NewDeckController
     }
     public function index() : void
     {
+        if(!isset($_SESSION['user_id'])){
+            header('Location: /login');
+        }
         if(isset($_POST["submit"])){
             $this->newDeck();
         }

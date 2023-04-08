@@ -15,3 +15,29 @@ $(document).ready(function() {
         });
     });
 });
+
+//Show card preview on hover
+$(document).ready(function() {
+    // event delegation to attach hover function to parent element
+    $('.table-responsive').on('mouseenter', 'td.card-name', function() {
+        var cardName = $(this).text().trim();
+        $.ajax({
+            url: 'https://api.scryfall.com/cards/named?fuzzy=' + cardName,
+            type: 'GET',
+            success: function(data) {
+                $('#hoverCardPreview').attr('src', data.image_uris.normal).show();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // set the image to a default image
+                $('#hoverCardPreview').attr('src', '/../images/card.jpg').show();
+            }
+        });
+    }).on('mouseleave', 'td.card-name', function() {
+        // hide the image on mouse leave
+        $('#hoverCardPreview').hide();
+    });
+});
+
+
+
+

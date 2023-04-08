@@ -16,6 +16,7 @@ class RegisterService
         if($this->checkUniqueUsername($username)){
             $password = password_hash($password, PASSWORD_DEFAULT);
             $this->registerRepository->register($username, $password);
+            header('location: /login');
         }
     }
 

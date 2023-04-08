@@ -103,8 +103,32 @@ class DeckRepository extends Repository
         $stmt->execute();
         $deckCards = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $deck['cards'] = $deckCards;
-        return $deck;
+        //$deck['cards'] = $deckCards;
+        return $deckCards;
+    }
+    public function addCard(int $deckId, string $cardName, int $amount) : void{
+        $stmt = $this::$connection->prepare('SELECT amount FROM deck_cards WHERE deck_id = :deck_id AND card_name = :card_name');
+        $stmt->bindParam(':deck_id', $deckId);
+        $stmt->bindParam(':card_name', $cardName);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            // Card is already in deck, update amount
+            $newAmount = $row['amount'] + $amount;
+            $stmt = $this::$connection->prepare('UPDATE deck_cards SET amount = :amount WHERE deck_id = :deck_id AND card_name = :card_name');
+            $stmt->bindParam(':amount', $newAmount);
+            $stmt->bindParam(':deck_id', $deckId);
+            $stmt->bindParam(':card_name', $cardName);
+            $stmt->execute();
+        } else {
+            // Card is not in deck, insert new row
+            $stmt = $this::$connection->prepare('INSERT INTO deck_cards (deck_id, card_name, amount) VALUES (:deck_id, :card_name, :amount)');
+            $stmt->bindParam(':deck_id', $deckId);
+            $stmt->bindParam(':card_name', $cardName);
+            $stmt->bindParam(':amount', $amount);
+            $stmt->execute();
+        }
     }
 
 }

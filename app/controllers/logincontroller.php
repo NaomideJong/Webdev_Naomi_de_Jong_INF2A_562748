@@ -12,7 +12,7 @@ class LoginController
     public function index() : void
     {
         if (isset($_SESSION['user'])) {
-            header('location: /home/account');
+            header('location: /home');
         }
 
         if(isset($_POST["submit"])){

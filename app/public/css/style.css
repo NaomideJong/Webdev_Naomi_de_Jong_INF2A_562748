@@ -28,6 +28,13 @@ body {
     max-width: 10em;
 }
 
+#hoverCardPreview {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    max-height: 30em;
+}
+
 @keyframes background-pan {
     from {
         background-position: 0% center;
