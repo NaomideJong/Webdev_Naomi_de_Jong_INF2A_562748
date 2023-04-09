@@ -34,6 +34,5 @@ class RegisterController
         $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
 
         $this->registerService->register($username, $password);
-        header('location: /login');
     }
 }

@@ -5,12 +5,29 @@ namespace Repositories;
 class CompareRepository extends Repository
 {
 
+    public function getAllPreCons() : array
+    {
+        $stmt = $this::$connection->prepare('SELECT * FROM pre_cons');
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+    public function getPreConCards($id) : array
+    {
+        //gets all pre-con cards by pre_con_id
+        $stmt = $this::$connection->prepare('SELECT * FROM pre_con_cards WHERE pre_con_id = :id');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 
-
-
-
-
-
+    public function getPreConById($id) : array
+    {
+        //gets all pre-con cards by pre_con_id
+        $stmt = $this::$connection->prepare('SELECT * FROM pre_cons WHERE id = :id');
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 
 
 

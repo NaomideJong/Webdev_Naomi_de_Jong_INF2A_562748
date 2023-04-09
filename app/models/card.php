@@ -14,7 +14,7 @@ class Card
         $this->name = $name;
         $this->price = $price;
     }
-    public function getPrice() : float
+    public function getPrice() : ?float
     {
         return $this->price;
     }

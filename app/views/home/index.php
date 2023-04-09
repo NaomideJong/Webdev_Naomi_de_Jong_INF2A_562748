@@ -1,7 +1,6 @@
 <?php
 include __DIR__ . '/../header.php'; ?>
 
-<link rel="stylesheet" href="/css/style.css">
 
 <div class="container">
     <div class="d-flex justify-content-center">

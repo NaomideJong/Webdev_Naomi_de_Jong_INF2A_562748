@@ -61,7 +61,7 @@ class DeckService
         }
         return $cardArray;
     }
-    public function calculatePrice($cards) : float
+    public function calculatePrice($cards) : ?float
     {
         $totalPrice = 0;
         foreach ($cards as $card) {
@@ -73,5 +73,4 @@ class DeckService
     {
         $this->deckRepository->addCard($deckId, $cardName, $amount);
     }
-
 }

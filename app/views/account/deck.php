@@ -65,7 +65,7 @@
                 <?php foreach ($cards as $card): ?>
                     <tr class="card-item">
                         <td class="card-name"><?php echo $card->name; ?></td>
-                        <td><?php echo '€' . ($card->price * $card->amount); ?></td>
+                        <td><?php echo '€ ' . ($card->price * $card->amount); ?></td>
                         <td>
                             <div class="input-group">
                                 <button type="button" class="btn btn-outline-secondary minus-btn">-</button>

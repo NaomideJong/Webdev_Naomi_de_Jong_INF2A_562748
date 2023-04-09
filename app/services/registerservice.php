@@ -23,7 +23,7 @@ class RegisterService
     public function checkUniqueUsername($username) : bool
     {
         $user = $this->registerRepository->checkUniqueUsername($username);
-        if ($user != null) {
+        if (!$user) {
             $_SESSION['errors'] = 'Username already exists';
             header('location: /register');
             return false;

@@ -20,7 +20,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="text-white">Confirm Password</label>
-                                <input type="password" class="form-control border-white mb-2" name="confirm-password" placeholder="Confirm Password">
+                                <input type="password" class="form-control border-white mb-2" name="password-confirm" placeholder="Confirm Password">
                             </div>
                             <div class="d-flex justify-content-center">
                                 <button type="submit" name="submit" class="btn btn-primary btn-block mt-4">Register</button>

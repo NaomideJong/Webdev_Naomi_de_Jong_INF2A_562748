@@ -34,6 +34,9 @@ body {
     left: 0;
     max-height: 30em;
 }
+.pre-con{
+    max-height: 10em;
+}
 
 @keyframes background-pan {
     from {
