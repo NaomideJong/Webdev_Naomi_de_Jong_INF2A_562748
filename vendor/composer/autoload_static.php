@@ -6,20 +6,6 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit49971bbd3e998fc78329c348f2c3874d
 {
-    public static $prefixLengthsPsr4 = array (
-        'm' => 
-        array (
-            'mtgsdk\\' => 7,
-        ),
-    );
-
-    public static $prefixDirsPsr4 = array (
-        'mtgsdk\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mtgsdk/mtgsdk/src',
-        ),
-    );
-
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
@@ -27,8 +13,6 @@ class ComposerStaticInit49971bbd3e998fc78329c348f2c3874d
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit49971bbd3e998fc78329c348f2c3874d::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit49971bbd3e998fc78329c348f2c3874d::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit49971bbd3e998fc78329c348f2c3874d::$classMap;
 
         }, null, ClassLoader::class);

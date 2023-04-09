@@ -42,7 +42,7 @@ class DeckRepository extends Repository
         $stmt->execute();
         return $this::$connection->lastInsertId();
     }
-    private function insertDeckCard(int $deckId, string $cardName, int $amount) : void
+    private function insertDeckCard($deckId, $cardName, $amount) : void
     {
         // Check if card is already in deck
         $stmt = $this::$connection->prepare('SELECT amount FROM deck_cards WHERE deck_id = :deck_id AND card_name = :card_name');
@@ -69,7 +69,7 @@ class DeckRepository extends Repository
         }
     }
 
-    private function getCardByName(string $cardName): ?array
+    private function getCardByName($cardName): ?array
     {
         //check if the card exists
         $url = 'https://api.scryfall.com/cards/named?fuzzy=' . urlencode($cardName);
@@ -103,13 +103,31 @@ class DeckRepository extends Repository
         $stmt->execute();
         $deckCards = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        //$deck['cards'] = $deckCards;
         return $deckCards;
     }
-    public function addCard(int $deckId, string $cardName, int $amount) : void{
+    public function getDeckName($deckId) : ?string
+    {
+        $stmt = $this::$connection->prepare('SELECT name FROM decks WHERE id = :id');
+        $stmt->bindParam(':id', $deckId);
+        $stmt->execute();
+        $deckName = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$deckName) {
+            return null;
+        }
+
+        return $deckName['name'];
+    }
+
+    public function addCard($deckId, $cardName, $amount) : void{
+        $cardName = $this->getCardByName($cardName);
+        if(!$cardName){
+            return;
+        }
+        // Check if card is already in deck
         $stmt = $this::$connection->prepare('SELECT amount FROM deck_cards WHERE deck_id = :deck_id AND card_name = :card_name');
         $stmt->bindParam(':deck_id', $deckId);
-        $stmt->bindParam(':card_name', $cardName);
+        $stmt->bindParam(':card_name', $cardName['name']);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -119,16 +137,40 @@ class DeckRepository extends Repository
             $stmt = $this::$connection->prepare('UPDATE deck_cards SET amount = :amount WHERE deck_id = :deck_id AND card_name = :card_name');
             $stmt->bindParam(':amount', $newAmount);
             $stmt->bindParam(':deck_id', $deckId);
-            $stmt->bindParam(':card_name', $cardName);
+            $stmt->bindParam(':card_name', $cardName['name']);
             $stmt->execute();
         } else {
             // Card is not in deck, insert new row
             $stmt = $this::$connection->prepare('INSERT INTO deck_cards (deck_id, card_name, amount) VALUES (:deck_id, :card_name, :amount)');
             $stmt->bindParam(':deck_id', $deckId);
-            $stmt->bindParam(':card_name', $cardName);
+            $stmt->bindParam(':card_name', $cardName['name']);
             $stmt->bindParam(':amount', $amount);
             $stmt->execute();
         }
+    }
+    public function deleteCard($deckId, $cardName) : void{
+        $stmt = $this::$connection->prepare('DELETE FROM deck_cards WHERE deck_id = :deck_id AND card_name = :card_name');
+        $stmt->bindParam(':deck_id', $deckId);
+        $stmt->bindParam(':card_name', $cardName);
+        $stmt->execute();
+    }
+
+    public function updateAmount($deckId, $cardName, $amount) : void{
+        $stmt = $this::$connection->prepare('UPDATE deck_cards SET amount = :amount WHERE deck_id = :deck_id AND card_name = :card_name');
+        $stmt->bindParam(':amount', $amount);
+        $stmt->bindParam(':deck_id', $deckId);
+        $stmt->bindParam(':card_name', $cardName);
+        $stmt->execute();
+    }
+    public function deleteDeck($deckId) : void{
+//delete all cards from deck_cards
+        $stmt = $this::$connection->prepare('DELETE FROM deck_cards WHERE deck_id = :deck_id');
+        $stmt->bindParam(':deck_id', $deckId);
+        $stmt->execute();
+//delete deck from decks
+        $stmt = $this::$connection->prepare('DELETE FROM decks WHERE id = :id');
+        $stmt->bindParam(':id', $deckId);
+        $stmt->execute();
     }
 
 }

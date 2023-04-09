@@ -23,7 +23,6 @@
             <ul class="navbar-nav">
                 <li class="nav-item m-2"><a class="nav-link active" href="/home">Home</a></li>
                 <li class="nav-item m-2"><a class="nav-link" href="/compare">Compare</a></li>
-                <li class="nav-item m-2"><a class="nav-link" href="#">Pre-Cons</a></li>
                 <?php if (isset($_SESSION['user'])): ?>
                     <li class="nav-item dropdown m-2">
                         <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown">Account</a>

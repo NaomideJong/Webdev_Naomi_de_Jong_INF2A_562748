@@ -38,6 +38,19 @@ $(document).ready(function() {
     });
 });
 
+const form = document.querySelector('#newDeckForm');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault(); // prevent the form from submitting
+
+    // show the "please wait" alert
+    alert('Please wait, this will only take a moment.');
+
+    // submit the form after a short delay
+    setTimeout(() => {
+        form.submit();
+    }, 1000); // delay for 1 second (1000 milliseconds)
+});
 
 
 

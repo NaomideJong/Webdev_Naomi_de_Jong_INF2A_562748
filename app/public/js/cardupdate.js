@@ -1,120 +1,115 @@
-$(document).ready(function() {
-    // add card button click handler
-    $('#addCardBtn').click(function() {
-        // get form data
-        var deckId = $('#deckId').val();
-        var cardName = $('#cardname').val();
-        var cardAmount = $('#cardAmount').val();
+const deleteButton = document.getElementById('deleteButton');
+const checkboxes = document.querySelectorAll('.delete-checkbox');
+const plusButtons = document.querySelectorAll('#plus-button');
+const minusButtons = document.querySelectorAll('#minus-button');
+const amountOfCardsList = document.querySelectorAll('.card-amount-input');
 
-        // make AJAX request to add card
-        $.ajax({
-            url: '/deck?id=' + deckId,
-            type: 'POST',
-            data: {
-                deckId: deckId,
-                cardName: cardName,
-                cardAmount: cardAmount
-            },
-            success: function(response) {
-                // reload the card list
-                location.reload();
-            },
-            error: function() {
-                alert('Error adding card');
-            }
-        });
+deleteButton.addEventListener('click', () => {
+    const checkedBoxes = document.querySelectorAll('.delete-checkbox:checked');
+
+    if (checkedBoxes.length > 0) {
+        removeCards(checkedBoxes);
+    }
+});
+
+//remove cards from database and refresh the list without reloading the page
+async function removeCards(cardsToDelete) {
+    const cardNames = Array.from(cardsToDelete).map(card => card.value);
+    let deckId = document.getElementById('deckId').value;
+
+    // do post request to remove cards
+    const response = await fetch('/deck/removeCards', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            cardNames: cardNames,
+            deckId: deckId
+        })
     });
 
-    // update card amount click handler
-    $('body').on('click', '.updateCardAmountBtn', function() {
-        // get deck ID, card name, card ID, and new amount
-        var deckId = $(this).closest('.deck').data('deckid');
-        var cardName = $(this).closest('.card').find('.cardName').text();
-        var newAmount = $(this).siblings('.cardAmountInput').val();
-
-        // make AJAX request to update card amount
-        $.ajax({
-            url: '/cards/updateAmount',
-            type: 'POST',
-            data: {
-                deckId: deckId,
-                cardName: cardName,
-                newAmount: newAmount
-            },
-            success: function(response) {
-                // reload the card list
-                location.reload();
-            },
-            error: function() {
-                alert('Error updating card amount');
-            }
+    // if response is ok, reload the list without reloading the page
+    if (response.ok) {
+        const totalPrice = document.getElementById('totalPrice');
+        const cardPrices = document.querySelectorAll('.card-price');
+        let totalPriceValue = totalPrice.innerText;
+        //get price of all deleted cards
+        cardNames.forEach(cardName => {
+            totalPriceValue -= parseInt(document.querySelector(`.card-price[data-card-name="${cardName}"]`));
         });
+
+        totalPrice.innerText = totalPriceValue;
+
+        cardsToDelete.forEach(card => {
+            card.closest('tr').remove();
+        });
+    }
+}
+
+//button listners for the plus and minus buttons
+plusButtons.forEach((button, index) => {
+    button.addEventListener('click', async () => {
+        const cardName = button.closest('.card-item').querySelector('.card-name').textContent;
+        let newAmount = parseInt(amountOfCardsList[index].value) + 1;
+        await updateCardAmount(cardName, newAmount);
+        amountOfCardsList[index].value = newAmount;
     });
-
-
-    // delete card click handler
-    $('body').on('click', '.deleteCardBtn', function() {
-        // get card ID
-        var cardId = $(this).data('cardid');
-
-        // make AJAX request to delete card
-        $.ajax({
-            url: '/cards/delete',
-            type: 'POST',
-            data: {
-                cardId: cardId
-            },
-            success: function(response) {
-                // reload the card list
-                location.reload();
-            },
-            error: function() {
-                alert('Error deleting card');
-            }
-        });
-    });
-
-    // delete selected cards click handler
-    $('#deleteSelectedBtn').click(function() {
-        // get selected card IDs
-        var selectedCards = $('.deleteCheckbox:checked').map(function() {
-            return $(this).val();
-        }).get();
-
-        // make AJAX request to delete selected cards
-        $.ajax({
-            url: '/cards/deleteSelected',
-            type: 'POST',
-            data: {
-                cardIds: selectedCards
-            },
-            success: function(response) {
-                // reload the card list
-                location.reload();
-            },
-            error: function() {
-                alert('Error deleting cards');
-            }
-        });
+});
+minusButtons.forEach((button, index) => {
+    button.addEventListener('click', async () => {
+        const cardName = button.closest('.card-item').querySelector('.card-name').textContent;
+        if(amountOfCardsList[index].value <= 1) return;
+        let newAmount = parseInt(amountOfCardsList[index].value) - 1;
+        await updateCardAmount(cardName, newAmount);
+        amountOfCardsList[index].value = newAmount;
     });
 });
 
-//confirm delete modal
-$('#confirmDeleteBtn').on('click', function() {
-    var ids = [];
-    $('.delete-checkbox:checked').each(function() {
-        ids.push($(this).val());
-    });
-    $.ajax({
-        url: '/delete-cards.php',
-        type: 'POST',
-        data: {ids: ids},
-        success: function(response) {
-            if (response == 'success') {
-                location.reload();
-            } else {
-                alert('Failed to delete cards.');
-            }
+
+//update the amount of a card without reloading the page
+async function updateCardAmount(cardName, newAmount) {
+    const deckId = document.getElementById('deckId').value;
+
+    if (isNaN(newAmount) || newAmount < 1) {
+        input.value = 1;
+        return;
+    }
+
+    try {
+        const response = await fetch('/deck/updateAmount', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cardName: cardName,
+                newAmount: newAmount,
+                deckId: deckId
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // update the amount displayed on the page
+            input.value = data.newAmount;
+        } else {
+            // reset the amount to the previous value
+            input.value = data.previousAmount;
         }
-    });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+//change the quantity of a card for the new card
+$(document).on('click', '.plus-btn, .minus-btn', function(e) {
+    const target = $(this).data('target');
+    const input = $(target);
+    const value = parseInt(input.val()) || 0;
+    const delta = $(this).hasClass('plus-btn') ? 1 : -1;
+    input.val(Math.max(value + delta, 1));
 });
+

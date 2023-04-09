@@ -8,7 +8,7 @@
                     <h3>Create New Deck</h3>
                 </div>
                 <div class="card-body">
-                    <form method="post">
+                    <form method="post" id="newDeckForm">
                         <div class="form-group">
                             <label for="name">Deck Name:</label>
                             <input type="text" class="form-control" id="name" name="name" required>
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mt-3">
-                            <button type="submit" name="submit" class="btn btn-primary">Create Deck</button>
+                            <button type="submit" name="submit" class="btn btn-primary" onclick="showMessage()">Create Deck</button>
                         </div>
                     </form>
                 </div>

@@ -45,7 +45,18 @@
                     </div>
                 </form>
             <?php else: ?>
-                <p>You have no decks</p>
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <p>You have no decks</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <?php if (!isset($_SESSION['user'])): ?>
+                        <a type="button" href="/login" class="btn btn-primary">Log in</a>
+                    <?php else: ?>
+                        <a type="button" href="/account" class="btn btn-primary">Create Deck</a>
+                    <?php endif; ?>
+                </div>
+            </div>
             <?php endif; ?>
             <div class="table-responsive">
                 <table class="table text-white">

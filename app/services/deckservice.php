@@ -36,7 +36,7 @@ class DeckService
         //Redirect to the deck view page
         header('Location: /deck?id=' . $deckId);
     }
-    public function getDeck(int $deckId) : ?array
+    public function getDeck($deckId) : ?array
     {
         $cards = $this->deckRepository->getDeck($deckId);
         $totalPrice = 0;
@@ -69,8 +69,31 @@ class DeckService
         }
         return $totalPrice;
     }
-    public function addCard(int $deckId, string $cardName, int $amount) : void
+    public function addCard($deckId, $cardName, $amount) : void
     {
         $this->deckRepository->addCard($deckId, $cardName, $amount);
+        header('Location: /deck?id=' . $deckId);
     }
+    public function deleteCard($deckId, $cardName) : void
+    {
+
+        $this->deckRepository->deleteCard($deckId, $cardName);
+    }
+    public function updateAmount($deckId, $cardName, $amount) : void
+    {
+        $this->deckRepository->updateAmount($deckId, $cardName, $amount);
+    }
+    public function deleteDeck($deckId) : void
+    {
+        $this->deckRepository->deleteDeck($deckId);
+    }
+    public function getDeckName($deckId) : ?string
+    {
+        $deckName = $this->deckRepository->getDeckName($deckId);
+        if (!$deckName) {
+            return null;
+        }
+        return $deckName;
+    }
+
 }

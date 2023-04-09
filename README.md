@@ -1,29 +1,15 @@
-# Basic PHP MVC demo
-This repository demonstrates how the MVC design pattern can be implemented using PHP.
+Log in met decks:
 
-It contains a docker configuration with:
-* NGINX webserver
-* PHP FastCGI Process Manager with PDO MySQL support
-* MariaDB (GPL MySQL fork)
-* PHPMyAdmin
+username: naomi
 
-## Installation
+password: naomi123
 
-1. Install Docker Desktop on Windows or Mac, or Docker Engine on Linux.
-1. Clone the project
 
-## Usage
 
-In a terminal, run:
-```bash
-docker-compose up
-```
+Officiële deck list voor het uitproberen van het importeren van decks:
+https://edhrec.com/average-decks/vishgraz-the-doomhive
 
-NGINX will now serve files in the app/public folder. Visit localhost in your browser to check.
-PHPMyAdmin is accessible on localhost:8080
+Op deze site zijn ook kaarten te vinden om te testen.
 
-If you want to stop the containers, press Ctrl+C. 
-Or run:
-```bash
-docker-compose down
-```
+Website:
+https://mtgchecker.000webhostapp.com
