@@ -2,8 +2,6 @@
 
 namespace Repositories;
 use PDO;
-use PDOException;
-
 class DeckRepository extends Repository
 {
 

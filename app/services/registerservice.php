@@ -2,6 +2,7 @@
 
 namespace Services;
 use Repositories\RegisterRepository;
+require __DIR__ . '/../repositories/registerrepository.php';
 
 class RegisterService
 {

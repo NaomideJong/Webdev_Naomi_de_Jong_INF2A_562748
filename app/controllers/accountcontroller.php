@@ -1,6 +1,7 @@
 <?php
 
 namespace Controllers;
+require __DIR__ . '/../services/accountservice.php';
 use Services\AccountService;
 
 class AccountController

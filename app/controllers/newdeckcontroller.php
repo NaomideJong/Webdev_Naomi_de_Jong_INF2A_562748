@@ -2,7 +2,7 @@
 
 namespace Controllers;
 use Services\DeckService;
-
+require __DIR__ . '/../services/deckservice.php';
 class NewDeckController
 {
     private $deckService;

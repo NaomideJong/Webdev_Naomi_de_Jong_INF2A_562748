@@ -1,5 +1,6 @@
 <?php
 namespace Controllers;
+require dirname(__DIR__) . '/services/loginservice.php';
 use Services\LoginService;
 class LoginController
 {

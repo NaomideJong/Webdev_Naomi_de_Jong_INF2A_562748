@@ -2,6 +2,7 @@
 
 namespace Services;
 use Repositories\GetCardsRepository;
+require __DIR__ . '/../repositories/getcardsrepository.php';
 
 class GetCardsService
 {

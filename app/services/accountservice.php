@@ -1,6 +1,7 @@
 <?php
 
 namespace Services;
+require __DIR__ . '/../repositories/accountrepository.php';
 use Repositories\AccountRepository;
 
 class AccountService

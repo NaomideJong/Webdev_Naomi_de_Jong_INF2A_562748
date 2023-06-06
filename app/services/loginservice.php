@@ -1,6 +1,7 @@
 <?php
 
 namespace Services;
+require dirname(__DIR__) . '/repositories/loginrepository.php';
 use Repositories\LoginRepository;
 
 class LoginService

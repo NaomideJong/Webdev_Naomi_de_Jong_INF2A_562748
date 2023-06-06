@@ -3,6 +3,8 @@
 namespace Services;
 use Repositories\CompareRepository;
 use Models\Card;
+require __DIR__ . '/../repositories/comparerepository.php';
+require_once __DIR__ . '/../models/card.php';
 
 
 class CompareService

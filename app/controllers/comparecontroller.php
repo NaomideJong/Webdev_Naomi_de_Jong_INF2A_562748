@@ -4,6 +4,9 @@ namespace Controllers;
 use Services\CompareService;
 use Services\AccountService;
 use Services\DeckService;
+require __DIR__ . '/../services/CompareService.php';
+require __DIR__ . '/../services/AccountService.php';
+require __DIR__ . '/../services/DeckService.php';
 
 class CompareController
 {

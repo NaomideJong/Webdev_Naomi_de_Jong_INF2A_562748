@@ -1,6 +1,8 @@
 <?php
 namespace Controllers;
 use Services\RegisterService;
+require dirname(__DIR__) . '/services/registerService.php';
+
 class RegisterController
 {
     private $registerService;

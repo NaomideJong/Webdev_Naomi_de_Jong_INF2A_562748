@@ -3,6 +3,8 @@
 namespace Services;
 use Repositories\DeckRepository;
 use Models\Card;
+require __DIR__ . '/../repositories/deckrepository.php';
+require_once __DIR__ . '/../models/card.php';
 
 class DeckService
 {

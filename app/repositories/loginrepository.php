@@ -3,7 +3,6 @@ namespace Repositories;
 
 use PDO;
 use PDOException;
-use Repositories\Repository;
 
 class LoginRepository extends Repository
 {
